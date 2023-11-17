@@ -2,9 +2,9 @@
 ** EPITECH PROJECT, 2023
 ** setting_up
 ** File description:
-** Reading a board from command-line arguments
+** Displaying a board
 */
 
 #pragma once
 
-int execute_reader(char **av);
+void print_board(char **board);
