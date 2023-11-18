@@ -37,6 +37,29 @@ static char *read_file(char const *filepath, int file_descriptor)
     return buffer;
 }
 
+static int check_board_characters(char **buffer, int i)
+{
+    for (int j = 0; buffer[i][j] != '\0'; j++) {
+        if (buffer[i][j] != '.' && buffer[i][j] != 'o')
+            return EXIT_ERROR;
+    }
+    return EXIT_SUCCESS;
+}
+
+static int check_board_integrity(char **buffer, int board_lines_count, int
+    board_columns_size)
+{
+    if (board_lines_count <= 0 || board_columns_size <= 0)
+        return EXIT_ERROR;
+    for (int i = 0; i < board_lines_count; i++) {
+        if (my_strlen(buffer[i]) != board_columns_size - 1)
+            return EXIT_ERROR;
+        if (check_board_characters(buffer, i) == EXIT_ERROR)
+            return EXIT_ERROR;
+    }
+    return EXIT_SUCCESS;
+}
+
 static char **fill_board(char *buffer, int *board_lines_count,
     int *board_columns_size)
 {
@@ -75,6 +98,9 @@ int execute_reader(char const *filepath)
     if (file_content == NULL)
         return EXIT_ERROR;
     board = fill_board(file_content, &board_lines_count, &board_columns_size);
+    if (check_board_integrity(
+        board, board_lines_count, board_columns_size) == EXIT_ERROR)
+        return EXIT_ERROR;
     solve_board(board, board_lines_count, board_columns_size);
     my_freearray(board);
     free(file_content);
