@@ -21,6 +21,9 @@ LIB_PATH = ./lib/my
 NAME_TEST = unit_tests
 NAME = setting_up
 
+VALGRIND_ARGS = -s --leak-check=full --error-exitcode=1
+VALGRIND_EXEC_ARGS = 6 "..o.."
+
 .PHONY: all build_lib clean_lib fclean_lib clean fclean re tests_run valgrind
 
 all: $(NAME)
@@ -49,7 +52,7 @@ tests_run: build_lib
 	./$(NAME_TEST)
 
 valgrind: all
-	valgrind -s --leak-check=full --error-exitcode=1 ./$(NAME)
+	valgrind  $(VALGRIND_ARGS) ./$(NAME) $(VALGRIND_EXEC_ARGS)
 
 tests_clean:
 	$(RM) $(NAME_TEST)
