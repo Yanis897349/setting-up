@@ -7,4 +7,4 @@
 
 #pragma once
 
-int execute_reader(char **av);
+int execute_reader(char const *filepath);
