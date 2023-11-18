@@ -24,7 +24,10 @@ NAME = setting_up
 VALGRIND_ARGS = -s --leak-check=full --error-exitcode=1
 VALGRIND_EXEC_ARGS = 6 "..o.."
 
-.PHONY: all build_lib clean_lib fclean_lib clean fclean re tests_run valgrind
+INTEGRATION_TESTS_RUN = ./tests/integration_tests.py
+
+.PHONY: all build_lib clean_lib fclean_lib clean fclean re tests_run \
+	integration_tests valgrind
 
 all: $(NAME)
 
@@ -50,6 +53,9 @@ re: fclean all
 tests_run: build_lib
 	$(CC) $(SRC) $(SRC_TEST) $(CFLAGS) -o $(NAME_TEST) --coverage -lcriterion
 	./$(NAME_TEST)
+
+integration_tests: all
+	python3 $(INTEGRATION_TESTS_RUN)
 
 valgrind: all
 	valgrind  $(VALGRIND_ARGS) ./$(NAME) $(VALGRIND_EXEC_ARGS)
