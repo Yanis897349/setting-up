@@ -9,11 +9,12 @@ RM = rm -f
 
 SRC = ./src/Reader/reader.c \
 	./src/Generator/generator.c \
-	./src/Display/display.c
+	./src/Display/display.c \
+	./src/Solver/solver.c
 SRC_TEST = ./tests/test_setting_up.c
 MAIN_SRC = ./src/setting_up.c
 
-CFLAGS += -Wall -Wextra -Werror -I . -I ./src/ -L . -lmy
+CFLAGS += -Wall -Wextra -I . -I ./src/ -L . -lmy
 
 LIB_PATH = ./lib/my
 

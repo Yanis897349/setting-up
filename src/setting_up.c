@@ -7,7 +7,9 @@
 
 #include "Reader/reader.h"
 #include "Generator/generator.h"
+#include "include/my_std.h"
 #include "setting_up.h"
+#include "include/my_math.h"
 
 static execution_type_t determine_execution_type(int ac)
 {
@@ -21,17 +23,17 @@ static execution_type_t determine_execution_type(int ac)
     }
 }
 
-int main(int ac, char **av)
+int main(int ac, char const **av)
 {
     execution_type_t execution_type = determine_execution_type(ac);
 
     switch (execution_type) {
         case READER:
-            return execute_reader(av);
+            return execute_reader(av[1]);
         case GENERATOR:
-            return execute_generator(av);
+            return execute_generator(my_getnbr(av[1]), av[2]);
         case NO_EXEC:
         default:
-            return 84;
+            return EXIT_ERROR;
     }
 }

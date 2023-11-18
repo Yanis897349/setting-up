@@ -7,4 +7,4 @@
 
 #pragma once
 
-int execute_generator(char **av);
+int execute_generator(int board_size, char const *pattern);

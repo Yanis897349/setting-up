@@ -7,10 +7,12 @@
 
 #include <stdlib.h>
 #include "Display/display.h"
+#include "Solver/solver.h"
+#include "include/my_std.h"
 #include "include/my_strings.h"
 #include "include/my_math.h"
 
-static char **generate_board(int size, char *pattern)
+static char **generate_board(int size, char const *pattern)
 {
     char **board = malloc(sizeof(char *) * (size + 1));
     int pattern_len = my_strlen(pattern);
@@ -29,17 +31,20 @@ static char **generate_board(int size, char *pattern)
     return board;
 }
 
-int execute_generator(char **av)
+int execute_generator(int board_size, char const *pattern)
 {
-    char *pattern = av[2];
+    char **board = NULL;
     int pattern_size = my_strlen(pattern);
-    int board_size = my_getnbr(av[1]);
 
     if (board_size <= 0 || pattern_size <= 0)
-        return 84;
+        return EXIT_ERROR;
     for (int i = 0; i < pattern_size; i++)
         if (pattern[i] != '.' && pattern[i] != 'o')
-            return 84;
-    print_board(generate_board(board_size, pattern));
-    return 0;
+            return EXIT_ERROR;
+    board = generate_board(board_size, pattern);
+    if (board == NULL)
+        return EXIT_ERROR;
+    solve_board(board, board_size, board_size);
+    my_freearray(board);
+    return EXIT_SUCCESS;
 }
