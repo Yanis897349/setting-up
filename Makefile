@@ -27,7 +27,7 @@ VALGRIND_EXEC_ARGS = 6 "..o.."
 INTEGRATION_TESTS_RUN = ./tests/integration_tests.py
 
 .PHONY: all build_lib clean_lib fclean_lib clean fclean re tests_run \
-	integration_tests valgrind
+	tests_run_integration valgrind
 
 all: $(NAME)
 
@@ -54,7 +54,7 @@ tests_run: build_lib
 	$(CC) $(SRC) $(SRC_TEST) $(CFLAGS) -o $(NAME_TEST) --coverage -lcriterion
 	./$(NAME_TEST)
 
-integration_tests: all
+tests_run_integration: all
 	python3 $(INTEGRATION_TESTS_RUN)
 
 valgrind: all
