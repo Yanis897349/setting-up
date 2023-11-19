@@ -12,10 +12,9 @@
 #include "include/my_strings.h"
 #include "include/my_math.h"
 
-static char **generate_board(int size, char const *pattern)
+static char **generate_board(int size, char const *pattern, int pattern_len)
 {
     char **board = malloc(sizeof(char *) * (size + 1));
-    int pattern_len = my_strlen(pattern);
 
     if (board == NULL)
         return NULL;
@@ -24,24 +23,31 @@ static char **generate_board(int size, char const *pattern)
         if (board[i] == NULL)
             return NULL;
         for (int j = 0; j < size; j++)
-            board[i][j] = pattern[(i + j) % pattern_len];
+            board[i][j] = pattern[(i * size + j) % pattern_len];
         board[i][size] = '\0';
     }
     board[size] = NULL;
     return board;
 }
 
+static int check_pattern_sanity(char const *pattern, int pattern_len)
+{
+    for (int i = 0; i < pattern_len; i++)
+        if (pattern[i] != '.' && pattern[i] != 'o')
+            return EXIT_ERROR;
+    return EXIT_SUCCESS;
+}
+
 int execute_generator(int board_size, char const *pattern)
 {
     char **board = NULL;
-    int pattern_size = my_strlen(pattern);
+    int pattern_len = my_strlen(pattern);
 
-    if (board_size <= 0 || pattern_size <= 0)
+    if (board_size <= 0 || pattern_len <= 0)
         return EXIT_ERROR;
-    for (int i = 0; i < pattern_size; i++)
-        if (pattern[i] != '.' && pattern[i] != 'o')
-            return EXIT_ERROR;
-    board = generate_board(board_size, pattern);
+    if (check_pattern_sanity(pattern, pattern_len) == EXIT_ERROR)
+        return EXIT_ERROR;
+    board = generate_board(board_size, pattern, pattern_len);
     if (board == NULL)
         return EXIT_ERROR;
     solve_board(board, board_size, board_size);
