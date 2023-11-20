@@ -11,7 +11,6 @@
 #include "include/my_io.h"
 #include "include/my_strings.h"
 
-
 static int get_min(int a, int b, int c)
 {
     int min = a;
@@ -43,7 +42,7 @@ int solve_board(char **board, int lines_count, int columns_size)
         board_clone[i] = malloc(sizeof(int) * (columns_size + 1));
         if (board_clone[i] == NULL)
             return EXIT_ERROR;
-        my_memset(board_clone[i], 0, sizeof(int) * (columns_size + 1));
+        //my_memset(board_clone[i], 0, sizeof(int) * (columns_size + 1));
         for (int j = 0; j < columns_size - 1; j++)
             check_around(board, board_clone, i, j);
         board_clone[i][columns_size] = -1;

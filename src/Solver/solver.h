@@ -7,4 +7,5 @@
 
 #pragma once
 
+
 int solve_board(char **board, int lines_count, int columns_size);
