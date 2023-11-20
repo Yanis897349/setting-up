@@ -6,5 +6,6 @@
 */
 
 #pragma once
+#define GET_MIN(a, b, c) ((a < b ? a : b) < c ? (a < b ? a : b) : c)
 
 int solve_board(char **board, int lines_count, int columns_size);

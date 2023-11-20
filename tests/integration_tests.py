@@ -9,6 +9,7 @@ failed_folder = 'example_files/failed'
 failed_count = 0
 passed_count = 0
 total_count = 0
+total_time = 0
 
 if os.path.exists(failed_folder):
     shutil.rmtree(failed_folder)
@@ -20,6 +21,7 @@ for map_file in os.listdir(maps_folder):
     start = time.time()
     result = subprocess.run(['./setting_up', map_path], capture_output=True, text=True)
     end = time.time()
+    total_time += (end - start)
     elapsed_time = round((end - start) * 1000, 5)
 
     solved_file_path = os.path.join(solved_folder, map_file)
@@ -42,6 +44,7 @@ for map_file in os.listdir(maps_folder):
 
 print(f"Failed : {failed_count}/{total_count}")
 print(f"Passed : {passed_count}/{total_count}")
+print(f"Total time : {round(total_time, 5)} seconds")
 
 if failed_count > 0:
     exit(1)

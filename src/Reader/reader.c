@@ -22,39 +22,38 @@ static char *read_file(char const *filepath, int file_descriptor)
     int size_read = 0;
     struct stat file_stat;
 
-    if (stat(filepath, &file_stat) == -1) {
+    if (stat(filepath, &file_stat) == -1)
         return NULL;
-    }
     buffer = malloc(file_stat.st_size + 1);
     if (buffer == NULL)
         return NULL;
     size_read = read(file_descriptor, buffer, file_stat.st_size);
-    if (size_read == -1) {
+    if (size_read != file_stat.st_size) {
         free(buffer);
         return NULL;
     }
-    buffer[size_read] = '\0';
     return buffer;
 }
 
-static int check_board_characters(char **buffer, int i)
+static int check_board_characters(const char *row, int row_len)
 {
-    for (int j = 0; buffer[i][j] != '\0'; j++) {
-        if (buffer[i][j] != '.' && buffer[i][j] != 'o')
+    for (int j = 0; j < row_len; j++) {
+        if (row[j] != '.' && row[j] != 'o')
             return EXIT_ERROR;
     }
     return EXIT_SUCCESS;
 }
 
-static int check_board_integrity(char **buffer, int board_lines_count, int
-    board_columns_size)
+static int check_board_integrity(char **board, int board_lines_count,
+    int board_columns_size)
 {
+    int row_len = board_columns_size - 1;
+
     if (board_lines_count <= 0 || board_columns_size <= 0)
         return EXIT_ERROR;
     for (int i = 0; i < board_lines_count; i++) {
-        if (my_strlen(buffer[i]) != board_columns_size - 1)
-            return EXIT_ERROR;
-        if (check_board_characters(buffer, i) == EXIT_ERROR)
+        if (check_board_characters(
+            board[i], row_len) == EXIT_ERROR)
             return EXIT_ERROR;
     }
     return EXIT_SUCCESS;
@@ -75,8 +74,8 @@ static char **fill_board(char *buffer, int *board_lines_count,
     *board_columns_size = my_strlen(buffer) / *board_lines_count;
     for (int i = 0; i < *board_lines_count; i++) {
         board[i] = malloc(*board_columns_size);
-        for (int j = 0; buffer[j] != '\n'; j++)
-            board[i][j] = buffer[i * *board_columns_size + j];
+        my_memcpy(board[i], buffer + i * *board_columns_size,
+            *board_columns_size);
         board[i][*board_columns_size - 1] = '\0';
     }
     board[*board_lines_count] = NULL;
