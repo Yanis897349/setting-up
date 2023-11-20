@@ -11,6 +11,7 @@
 #include "include/my_std.h"
 #include "include/my_io.h"
 #include "include/my_strings.h"
+#include <strings.h>
 
 static void check_around(char **board, int **board_clone, int i, int j)
 {
@@ -32,6 +33,8 @@ int solve_board(char **board, int lines_count, int columns_size)
         board_clone[i] = malloc(sizeof(int) * (columns_size + 1));
         if (board_clone[i] == NULL)
             return EXIT_ERROR;
+        my_memset(board_clone[i], 0,
+            (columns_size + 1) * sizeof(*board_clone[i]));
         for (int j = 0; j < columns_size - 1; j++)
             check_around(board, board_clone, i, j);
         board_clone[i][columns_size] = -1;
