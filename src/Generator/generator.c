@@ -50,7 +50,7 @@ int execute_generator(int board_size, char const *pattern)
     board = generate_board(board_size, pattern, pattern_len);
     if (board == NULL)
         return EXIT_ERROR;
-    solve_board(board, board_size, board_size);
+    solve_board(board, board_size, board_size + 1);
     my_freearray(board);
     return EXIT_SUCCESS;
 }
