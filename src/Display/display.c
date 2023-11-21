@@ -7,12 +7,14 @@
 
 #include "display.h"
 #include "include/my_io.h"
-#include <stdlib.h>
+#include "include/my_std.h"
+#include <unistd.h>
+#include "include/my_strings.h"
 
 static void print_board(char **board)
 {
     for (int i = 0; board[i] != NULL; i++) {
-        my_putstr(board[i]);
+        write(1, board[i], my_strlen(board[i]));
         my_putchar('\n');
     }
 }
@@ -38,7 +40,5 @@ void print_solution(char **board, int **board_clone)
         for (int j = max_data.max_j; j > max_data.max_j - max_data.max; j--)
             board[i][j] = 'x';
     print_board(board);
-    for (int i = 0; board_clone[i] != NULL; i++)
-        free(board_clone[i]);
-    free(board_clone);
+    my_freearray((char **)board_clone);
 }

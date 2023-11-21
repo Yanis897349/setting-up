@@ -27,6 +27,7 @@ static char *read_file(char const *filepath, int file_descriptor)
     buffer = malloc(file_stat.st_size + 1);
     if (buffer == NULL)
         return NULL;
+    my_memset(buffer, '\0', file_stat.st_size + 1);
     size_read = read(file_descriptor, buffer, file_stat.st_size);
     if (size_read != file_stat.st_size) {
         free(buffer);
