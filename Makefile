@@ -57,6 +57,10 @@ tests_run: build_lib
 tests_run_integration: all
 	python3 $(INTEGRATION_TESTS_RUN)
 
+coverage: tests_run
+	gcovr --exclude tests/
+	gcovr --exclude tests/ --branches
+
 valgrind: all
 	valgrind  $(VALGRIND_ARGS) ./$(NAME) $(VALGRIND_EXEC_ARGS)
 
