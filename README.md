@@ -24,4 +24,4 @@ make all
 ```
 
 ## Result 
-![image](https://i.imgur.com/sTZFcWk.png)
+![image](https://i.imgur.com/fdijIpa.png)
